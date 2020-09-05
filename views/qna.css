@@ -1,0 +1,39 @@
+body, html {
+    margin: 0;
+}
+
+.inputs {
+    width: 600px;
+    height: 30px;
+    font-size: 20px;
+}
+
+.btn {
+    width: 200px;
+    height: 50px;
+    font-size: 25px;
+    border: none;
+    background-color: dimgray;
+    color: white;
+}
+
+#grid_container {
+    display: grid;
+    grid: 300px / 25% 50% 25%;
+    margin-top: 100px;
+}
+
+#grid_container >div {
+    text-align: center;
+}
+
+#grid_container >div>div {
+    margin-bottom: 100px;
+}
+
+
+#contents {
+    width: 1000px;
+    height: 200px;
+    font-size: 20px;
+}

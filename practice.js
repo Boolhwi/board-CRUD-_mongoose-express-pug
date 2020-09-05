@@ -1,7 +1,9 @@
 const mongoose = require('mongoose')
 const express = require('express')
+const bodyParser = require('body-parser')
 const app = express()
 const Character = require('./models/Character')
+const QnA = require('./models/QnA')
 const url = 'mongodb+srv://B:123321@cluster0.axyta.mongodb.net/practice'
 
 mongoose.set('useFindAndModify', false);
@@ -13,144 +15,78 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.static('public'))
 app.use(bodyParser.json())
 
-// create
-app.get('/', function (req, res) {
-  db.collection('pop_music_chart').find().toArray()
-      .then(results => {
-          res.render('index.pug', { target: results })
-      })
-      .catch(error => console.error(error))
-
+app.get('/', async function (req, res) {
+  const temp = await QnA.find()
+  res.render('index.pug', { target: temp })
 })
 
-app.post('/create', (req, res) => {
-  let temp = {
-      title: req.body.title,
-      artist: req.body.artist,
-      like: 0
-  }
-
-  pmc_collection.insertOne(temp)
-      .then(result => {
-          res.redirect('/')
-      })
-      .catch(error => console.error(error))
+app.get('/writing', async function (req, res) {
+  res.render('qna.pug')
 })
 
-app.post('/search_title', (req, res) => {
-  db.collection('pop_music_chart').find({ title: req.body.title }).toArray()
-      .then(results => {
-          res.render('index.pug', { target: results })
-      })
-      .catch(error => console.error(error))
+app.post('/write', async function (req, res) {
+  let temp = new QnA({
+    title: req.body.title,
+    contents: req.body.contents
+  })
+
+  const doc = await temp.save()
+  res.redirect('/')
 })
 
-app.post('/search_artist', (req, res) => {
-  db.collection('pop_music_chart').find({ artist: req.body.artist }).toArray()
-      .then(results => {
-          res.render('index.pug', { target: results })
-      })
-      .catch(error => console.error(error))
+app.post('/create', async function (req, res) {
+  let temp = new Character({
+    name: req.body.name,
+    specials: req.body.specials,
+    ultimate: req.body.ultimate
+  })
+
+  const doc = await temp.save()
+  res.redirect('/')
 })
 
-app.post('/like', (req, res) => {
-  pmc_collection.findOne(
-      {
-          title: req.body.title
-      })
-      .then(results => {
-          pmc_collection.updateOne({
-              title: req.body.title
-          }, {
-              $set: {
-                  like: ++results.like
-              }
-          })
-              .then(result => {
-                  res.redirect('/')
-              })
-              .catch(error => console.error(error))
-      })
-      .catch(error => console.error(error))
+app.post('/search', async (req, res) => {
+  const temp = await Character.find({name:req.body.name})
+  res.render('index.pug', { target: temp })
 })
 
-app.post('/delete', (req, res) => {
-  pmc_collection.deleteOne(
-      { title: req.body.title }
-  )
-      .then(result => {
-          if (result.deletedCount === 0) {
-              return res.json('No music to delete')
-          }
-          res.json(req.body.title + ` Deleted`)
-      })
-      .catch(error => console.error(error))
+//update
+
+app.post('/update', async (req, res) => {
+
+  const doc = await Character.findOneAndUpdate(
+    { name: req.body.name },
+    {
+      specials: req.body.specials
+    })
+  res.redirect('/')
+})
+
+// delete
+
+app.post('/delete', async (req, res) => {
+
+  const deleted = await Character.findOneAndDelete({ name: req.body.name })
+  res.redirect('/')
 })
 
 app.listen(3000, function () {
   console.log('listening on 3000')
-}
-// async function runCode() {
-//   const ryu = new Character({
-//     name: 'LEE',
-//     specials: ['Bomb', 'it like a boom boom'],
-//     ultimate: 'ANS'
-//   })
+})
 
-//   const doc = await ryu.save()
-//   console.log(doc)
-// }
-
-// runCode()
-//   .catch(error => { console.error(error) })
-
-// update
-
-// async function runCode() {
-//   const doc = await Character.findOneAndUpdate(
-//     { name: 'gayeon'},
-//     {
-//       specials: [
-//         'kindness',
-//         'sweet',
-//         'pure'
-//       ]
-//     })
-
-//   console.log(doc)
-// }
-
-// runCode()
-//   .catch(error => { console.error(error) })
-
-// // find
-// async function runCode() {
-//   const ryu = await Character.findOne({ name: 'Ryu' })
-//   console.log(ryu)
-// }
-// runCode()
-//   .catch(error => { console.error(error) })
-
+// option
 // // update ( find and save)
-// const ryu = await Character.findOne({ name: 'Ryu' })
-// ryu.specials = [s
+// const temp = await Character.findOne({ name: '' })
+// temp.specials = [
 //   'Hadoken',
-//   'Shoryuken',
+//   'Shotempken',
 //   'Tatsumaki Senpukyaku'
 // ]
 
-// const doc = await ryu.save()
+// const doc = await temp.save()
 // console.log(doc)
 
 // // delete
 
-// const ryu = await Character.findOne({ name: 'Ryu' })
-// const deleted = await ryu.remove()
-
-// // delete
-async function runCode() {
-  const deleted = await Character.findOneAndDelete({ name: 'Ryu' })
-}
-
-runCode()
-  .catch(error => { console.error(error) })
+// const temp = await Character.findOne({ name: '' })
+// const deleted = await temp.remove()

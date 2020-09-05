@@ -1,0 +1,27 @@
+html
+    head
+        meta(charset='utf-8')
+        style
+            include qna.css
+
+
+    body
+        div#grid_container
+            div#title_name 글 쓰기
+            div
+                div
+                    form(action='/write' method='post')
+                        p
+                            input.inputs#create_title(type="text" placeholder="제목을 입력해주세요" name="title")
+                        p
+                            textarea.inputs#contents(type="text" placeholder="내용을 입력해주세요" name="contents")
+                        p
+                            input.inputs#create_title(type="text" placeholder="비밀번호를 입력해주세요" name="password")
+                        p
+                            button.btn(type="submit") 글 등록하기
+
+            div
+
+                    a(href="/") 뒤로
+
+

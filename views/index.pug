@@ -1,0 +1,38 @@
+html
+    head
+        meta(charset='utf-8')
+        style
+            include index.css
+
+
+    body
+        div#grid_container
+            div
+                div
+                    form(action='/search' method='post')
+                        p
+                            input.inputs#create_title(type="text" placeholder="글 제목" name="title")
+                        p
+                            button.btn(type="submit") 검색
+                div
+
+                    a(href="writing") 글쓰기
+
+            div
+                    div#title_name 고객 센터 게시판
+                    div#title_list_container
+                        each val in target
+                            ul#title_list
+                                li
+                                    span#info_title #{val.title} |
+                                    span#info_artist #{val.contents}
+                                    //- span#info_like #{val.ultimate}
+
+                    div#message #{text}
+
+
+
+
+
+
+
