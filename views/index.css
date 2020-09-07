@@ -34,7 +34,6 @@ body, html {
 #title_list {
     list-style:none;
    padding-left:0px;
-
 }
 
 #title_list_container {
@@ -46,4 +45,8 @@ body, html {
 #title_name {
     font-size: 50px;
     margin-bottom: 50px;
+}
+
+.hide {
+    display: none;
 }

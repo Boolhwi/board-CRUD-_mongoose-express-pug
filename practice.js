@@ -2,7 +2,6 @@ const mongoose = require('mongoose')
 const express = require('express')
 const bodyParser = require('body-parser')
 const app = express()
-const Character = require('./models/Character')
 const QnA = require('./models/QnA')
 const url = 'mongodb+srv://B:123321@cluster0.axyta.mongodb.net/practice'
 
@@ -24,6 +23,10 @@ app.get('/writing', async function (req, res) {
   res.render('qna.pug')
 })
 
+app.get('/read', async function (req, res) {
+  res.render('write.pug', {target: ""})
+})
+
 app.post('/write', async function (req, res) {
   let temp = new QnA({
     title: req.body.title,
@@ -34,15 +37,13 @@ app.post('/write', async function (req, res) {
   res.redirect('/')
 })
 
-app.post('/create', async function (req, res) {
-  let temp = new Character({
-    name: req.body.name,
-    specials: req.body.specials,
-    ultimate: req.body.ultimate
-  })
+app.post('/bring', async function (req, res) {
+  console.log("bring success")
+  console.log(req.body._id)
+  const temp = await QnA.find({_id:req.body._id})
+  console.log(temp)
 
-  const doc = await temp.save()
-  res.redirect('/')
+  res.render('write.pug', { target: temp })
 })
 
 app.post('/search', async (req, res) => {

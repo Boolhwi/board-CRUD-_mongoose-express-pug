@@ -19,16 +19,26 @@ html
                     a(href="writing") 글쓰기
 
             div
-                    div#title_name 고객 센터 게시판
-                    div#title_list_container
-                        each val in target
-                            ul#title_list
-                                li
-                                    span#info_title #{val.title} |
-                                    span#info_artist #{val.contents}
-                                    //- span#info_like #{val.ultimate}
+                div#title_name 고객 센터 게시판
+                div#title_list_container
+                    each val in target
+                        ul#title_list
+                            li
+                                span#info_title #{val.title}
+                                span#info_artist #{val.contents}
+                                    div
+                                        form(action='/delete' method='post')
+                                            p
+                                                input.inputs#create_title(type="text" placeholder="비밀번호를 입력하세요" name="password")
+                                             p
+                                                button.btn(type="submit") 삭제하기
 
-                    div#message #{text}
+                                //- span.hide #{val._id}
+
+                                //- span#info_artist #{val.contents}
+                                //- span#info_like #{val.ultimate}
+
+    script(src="main.js")
 
 
 
