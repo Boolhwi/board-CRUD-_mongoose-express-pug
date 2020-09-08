@@ -1,21 +1,24 @@
 
-// const deleteButton = document.querySelector('#delete-button')
-// const messageDiv = document.querySelector('#message')
-
-function list_click(value) {
-    let id = value
-    fetch('/bring', {
-        method: 'post',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            _id : id
-        })
-    })
-        // .then(res => {
-        //     if (res.ok) return res.json()
-        // })
-        // .then(response => {
-        //     messageDiv.innerHTML = response
-        //     location.reload()
-        // })
+function deleting(event) {
+    event.target.parentElement.parentElement.style.display = "none"
+    event.target.parentElement.parentElement.nextElementSibling.nextElementSibling.style.display = "block"
 }
+
+function updating(event) {
+    event.target.parentElement.parentElement.style.display = "none"
+    event.target.parentElement.parentElement.nextElementSibling.style.display = "block"
+}
+
+// fetch('/delete', {
+    //     method: 'post',
+    //     headers: { 'Content-Type': 'application/json' },
+    //     body: JSON.stringify({
+    //         title : event.target.parentElement.parentElement.firstElementChild.firstElementChild.innerHTML
+    //     })
+    // })
+    //     // .then(res => {
+    //     //     if (res.ok) return res.json()
+    //     // })
+    //     .then(response => {
+    //         location.reload()
+    //     })

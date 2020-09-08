@@ -6,22 +6,21 @@ html
 
 
     body
-        div#grid_container
-            div#title_name
+        div#body_container
+            div#board_name 글 쓰기
             div
-                div 글 쓰기
+                div
                     form(action='/write' method='post')
                         p
-                            input.inputs#create_title(type="text" placeholder="제목을 입력해주세요" name="title")
+                            input.inputs(type="text" placeholder="제목을 입력해주세요" name="title")
                         p
-                            textarea.inputs#contents(type="text" placeholder="내용을 입력해주세요" name="contents")
+                            textarea.contents(type="text" placeholder="내용을 입력해주세요" name="contents")
                         p
-                            input.inputs#create_title(type="text" placeholder="비밀번호를 입력해주세요" name="password")
+                            input.inputs(type="text" placeholder="비밀번호를 입력해주세요" name="password")
                         p
                             button.btn(type="submit") 글 등록하기
 
             div
-
-                    a(href="/") 뒤로
+                a.prev_btn(href="/") 뒤로
 
 

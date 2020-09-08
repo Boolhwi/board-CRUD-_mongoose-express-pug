@@ -14,6 +14,8 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.static('public'))
 app.use(bodyParser.json())
 
+//default ( read )
+
 app.get('/', async function (req, res) {
   const temp = await QnA.find()
   res.render('index.pug', { target: temp })
@@ -23,51 +25,41 @@ app.get('/writing', async function (req, res) {
   res.render('qna.pug')
 })
 
-app.get('/read', async function (req, res) {
-  res.render('write.pug', {target: ""})
-})
+//create
 
 app.post('/write', async function (req, res) {
   let temp = new QnA({
     title: req.body.title,
-    contents: req.body.contents
+    contents: req.body.contents,
+    password: req.body.password
   })
 
   const doc = await temp.save()
   res.redirect('/')
 })
 
-app.post('/bring', async function (req, res) {
-  console.log("bring success")
-  console.log(req.body._id)
-  const temp = await QnA.find({_id:req.body._id})
-  console.log(temp)
-
-  res.render('write.pug', { target: temp })
-})
-
-app.post('/search', async (req, res) => {
-  const temp = await Character.find({name:req.body.name})
-  res.render('index.pug', { target: temp })
-})
-
 //update
 
-app.post('/update', async (req, res) => {
-
-  const doc = await Character.findOneAndUpdate(
-    { name: req.body.name },
+app.post('/update', async function (req, res) {
+  const temp = await QnA.findOneAndUpdate(
+    {title: req.body.title, password: req.body.password},
     {
-      specials: req.body.specials
+      contents: req.body.contents
     })
   res.redirect('/')
+})
+
+//read
+
+app.post('/search', async (req, res) => {
+  const temp = await QnA.find({title: { $regex: req.body.title }})
+  res.render('index.pug', { target: temp })
 })
 
 // delete
 
 app.post('/delete', async (req, res) => {
-
-  const deleted = await Character.findOneAndDelete({ name: req.body.name })
+  const deleted = await QnA.findOneAndDelete({ title: req.body.title, password: req.body.password })
   res.redirect('/')
 })
 

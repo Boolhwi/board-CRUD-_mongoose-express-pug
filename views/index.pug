@@ -4,39 +4,53 @@ html
         style
             include index.css
 
-
     body
-        div#grid_container
+        div#body_container
+
+            div#board_name 고객 센터 게시판
             div
-                div
+                span#search_form
                     form(action='/search' method='post')
-                        p
-                            input.inputs#create_title(type="text" placeholder="글 제목" name="title")
-                        p
-                            button.btn(type="submit") 검색
-                div
+                        span
+                            input.inputs(type="text" placeholder="글 제목" name="title")
+                        span
+                            button.btn(type="submit") 키워드 검색
+                        span
+                            a#writing_btn(href="/writing") 글쓰기
 
-                    a(href="writing") 글쓰기
+            div#list_container
+                each val in target
+                    ul.list
+                        li.list_set
+                            p.list_title #{val.title}
+                            p.list_contents #{val.contents}
 
-            div
-                div#title_name 고객 센터 게시판
-                div#title_list_container
-                    each val in target
-                        ul#title_list
-                            li
-                                span#info_title #{val.title}
-                                span#info_artist #{val.contents}
-                                    div
-                                        form(action='/delete' method='post')
-                                            p
-                                                input.inputs#create_title(type="text" placeholder="비밀번호를 입력하세요" name="password")
-                                             p
-                                                button.btn(type="submit") 삭제하기
+                            button.btn(onclick="updating(event)") 내용 수정하기
+                            button.btn(onclick="deleting(event)") 삭제하기
 
-                                //- span.hide #{val._id}
+                    div.hide
+                        form(action='/update' method='post')
+                            p
+                                input.readonly(type="text" value= val.title name="title" readonly)
+                            p
+                                textarea.textarea(type="text" name="contents") #{val.contents}
+                            p
+                                input.inputs(type="text" placeholder="비밀번호를 입력해주세요" name="password")
+                            p
+                                button.btn(type="submit") 수정하기
+                        a.prev_btn(href="/") 뒤로
 
-                                //- span#info_artist #{val.contents}
-                                //- span#info_like #{val.ultimate}
+                    div.hide
+                        form(action='/delete' method='post')
+                            p
+                                input.readonly(type="text" value= val.title name="title" readonly)
+                            p
+                                textarea.readonly.textarea(type="text" name="contents" readonly) #{val.contents}
+                            p
+                                input.inputs(type="text" placeholder="비밀번호를 입력해주세요" name="password")
+                            p
+                                button.btn(type="submit") 삭제하기
+                        a.prev_btn(href="/") 뒤로
 
     script(src="main.js")
 

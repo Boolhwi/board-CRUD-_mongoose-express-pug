@@ -2,6 +2,22 @@ body, html {
     margin: 0;
 }
 
+a {
+    text-decoration: none;
+}
+
+#body_container {
+    width: 60%;
+    margin: auto;
+}
+
+#board_name {
+    margin-top: 50px;
+    font-size: 50px;
+    margin-bottom: 50px;
+    text-align: center;
+}
+
 .inputs {
     width: 600px;
     height: 30px;
@@ -9,30 +25,28 @@ body, html {
 }
 
 .btn {
-    width: 200px;
-    height: 50px;
-    font-size: 25px;
+    width: 150px;
+    height: 35px;
+    font-size: 20px;
     border: none;
     background-color: dimgray;
     color: white;
+    cursor: pointer;
 }
 
-#grid_container {
-    display: grid;
-    grid: 300px / 25% 50% 25%;
-    margin-top: 100px;
-}
-
-#grid_container >div {
+.prev_btn {
+    width: 100px;
+    height: 50px;
+    font-size: 20px;
+    padding: 5px;
+    background-color: dimgray;
+    cursor: pointer;
+    color: white;
     text-align: center;
+    box-sizing: border-box;
 }
 
-#grid_container >div>div {
-    margin-bottom: 100px;
-}
-
-
-#contents {
+.contents {
     width: 1000px;
     height: 200px;
     font-size: 20px;
